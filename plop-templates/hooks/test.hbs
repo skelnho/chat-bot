@@ -1,0 +1,23 @@
+import { describe, it, expect } from 'vitest'
+import { renderHook, act } from '@testing-library/react-hooks'
+import { {{camelCase name}} } from './{{camelCase name}}'
+
+describe('use{{pascalCase name}}', () => {
+  it('should initialize correctly', () => {
+    const { result } = renderHook(() => {{camelCase name}}())
+
+    // Assertions : update based on your hook's initial state
+    expect(result.current).toBeDefined()
+  })
+
+  it('should update state correctly', () => {
+    const { result } = renderHook(() => {{camelCase name}}())
+
+    act(() => {
+        // Update state
+    })
+
+    // Assertions : update based on your hook's behavior
+    // expect(result.current.someState).toBe(someValue)
+  })
+})
