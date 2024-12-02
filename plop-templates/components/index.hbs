@@ -1,0 +1,18 @@
+'use client'
+import * as React from 'react'
+import styled from 'styled-components'
+
+export type {{pascalCase name}}Props = {
+  foo?: string
+}
+
+const Container = styled.div`
+`
+
+export const {{pascalCase name}} = React.forwardRef<HTMLDivElement, {{pascalCase name}}Props>(
+  ({ foo = 'bar' }, ref) => {
+    return <Container ref={ref} data-testid="component-{{lowerCase name}}">{foo}</Container>
+  }
+)
+
+{{pascalCase name}}.displayName = '{{pascalCase name}}'
