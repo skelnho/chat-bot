@@ -36,8 +36,13 @@ module.exports = function (plop) {
     actions: [
       {
         type: 'add',
-        path: 'utils/{{camelCase name}}.ts',
-        templateFile: 'plop-templates/util.ts.hbs',
+        path: 'src/utils/{{kebabCase name}}.ts',
+        templateFile: 'plop-templates/utils/index.hbs',
+      },
+      {
+        type: 'add',
+        path: 'src/utils/{{kebabCase name}}.test.ts',
+        templateFile: 'plop-templates/utils/test.hbs',
       },
     ],
   })
