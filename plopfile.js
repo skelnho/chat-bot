@@ -1,4 +1,28 @@
 module.exports = function (plop) {
+  // page generator
+  plop.setGenerator('page', {
+    description: 'Create a page',
+    prompts: [
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Page name?'
+      }
+    ],
+    actions: [
+      {
+        type: 'add',
+        path: 'src/app/{{kebabCase name}}/page.tsx',
+        templateFile: 'plop-templates/page/index.hbs'
+      },
+      {
+        type: 'add',
+        path: 'src/app/{{kebabCase name}}/{{kebabCase name}}.test.tsx',
+        templateFile: 'plop-templates/page/test.hbs'
+      }
+    ]
+  })
+
   // Component generator
   plop.setGenerator('component', {
     description: 'Create a component',
@@ -70,4 +94,5 @@ module.exports = function (plop) {
       },
     ],
   })
+
 }

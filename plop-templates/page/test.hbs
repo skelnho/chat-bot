@@ -2,11 +2,11 @@ import React from 'react'
 import { render, screen } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { describe, it, expect } from 'vitest'
-import { {{pascalCase name}} } from './'
+import {{pascalCase name}} from './page'
 
-describe('{{pascalCase name}} component', () => {
+describe('{{pascalCase name}} Page', () => {
   it('renders', () => {
     render(<{{pascalCase name}} />)
-    expect(screen.getByTestId('component-{{lowerCase name}}')).toBeInTheDocument()
+    expect(screen.getByText('{{pascalCase name}} Page')).toBeInTheDocument()
   })
 })
