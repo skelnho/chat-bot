@@ -22,6 +22,7 @@ const InputWrapper = styled.div`
   border: 1px solid #D1D5DB;
   border-radius: 1.25rem;
   padding: 0 .75rem;
+  margin-bottom: 1rem;
 `
 
 const StyledInput = styled.input<StyledInputProps>`
@@ -62,7 +63,7 @@ const handleUpload = () => {
 }
 
 export const TextInput = ({
-  placeholder = '',
+  placeholder = 'Message ChatBot',
   error = '',
   disabled = false,
   required = false,

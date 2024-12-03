@@ -1,7 +1,8 @@
 'use client'
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { PanelLeftDashed } from 'lucide-react'
+import { PanelLeftDashed, SquarePen } from 'lucide-react'
+import Link from 'next/link'
 
 interface SidebarProps {
   isOpen?: boolean
@@ -9,9 +10,6 @@ interface SidebarProps {
 }
 
 const SidebarContainer = styled.div<SidebarProps>`
-  position: fixed;
-  left: 0;
-  top: 0;
   height: 100vh;
   width: ${({ isOpen }) => (isOpen ? '240px' : '0')};
   background: #1a1a1a;
@@ -44,11 +42,13 @@ const ToggleButton = styled.button`
 `
 
 const Content = styled.div<SidebarProps>`
+  display: flex;
+  justify-content: flex-end;
   padding: 20px;
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
   transition: opacity 0.3s ease;
   visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
-  margin-left: auto;
+  color: #FFF;
 `
 
 export const Sidebar: React.FC<SidebarProps> = ({
@@ -65,6 +65,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       <SidebarContainer isOpen={isOpen}>
         <Content isOpen={isOpen}>
+          <Link href='/'>
+            <SquarePen size={22} />
+          </Link>
           {children}
         </Content>
       </SidebarContainer>
