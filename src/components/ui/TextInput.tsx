@@ -1,7 +1,9 @@
 'use client'
 import { Paperclip, SendHorizontal } from 'lucide-react'
-import React, { InputHTMLAttributes } from 'react'
+import Link from 'next/link'
+import React, { InputHTMLAttributes, useState } from 'react'
 import styled from 'styled-components'
+import useConversationStore from '@/hooks/useConversationStore'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -19,9 +21,9 @@ const InputWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #fff;
-  border: 1px solid #D1D5DB;
+  border: 1px solid #d1d5db;
   border-radius: 1.25rem;
-  padding: 0 .75rem;
+  padding: 0 0.75rem;
   margin-bottom: 1rem;
 `
 
@@ -54,10 +56,6 @@ const StyledInput = styled.input<StyledInputProps>`
   }
 `
 
-const handleMessage = () => {
-  console.log('hello')
-}
-
 const handleUpload = () => {
   console.log('hello')
 }
@@ -70,11 +68,24 @@ export const TextInput = ({
   type = 'text',
   ...props
 }: InputProps) => {
+  const [text, setText] = useState('')
+  const { addConversation } = useConversationStore()
+
+  const handleChange = (event) => {
+    setText(event.target.value)
+  }
+
+  const handleMessage = () => {
+    addConversation({ id: '123', sender: 'person', message: text })
+  }
+
   return (
     <InputWrapper>
-      <Paperclip className='click' onClick={handleUpload} />
+      <Paperclip className="click" onClick={handleUpload} />
 
       <StyledInput
+        value={text}
+        onChange={handleChange}
         type={type}
         placeholder={placeholder}
         disabled={disabled}
@@ -82,7 +93,19 @@ export const TextInput = ({
         error={error}
         {...props}
       />
-      <SendHorizontal className='click' onClick={handleMessage} />
+      <Link
+        href="/chat/123"
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          pointerEvents: !text.length ? 'none' : 'auto',
+        }}
+      >
+        <SendHorizontal
+          onClick={handleMessage}
+          color={!text.length ? 'gray' : 'black'}
+        />
+      </Link>
     </InputWrapper>
   )
 }

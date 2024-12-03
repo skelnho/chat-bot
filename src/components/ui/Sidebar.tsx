@@ -3,10 +3,10 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { PanelLeftDashed, SquarePen } from 'lucide-react'
 import Link from 'next/link'
+import useConversationStore from '@/hooks/useConversationStore'
 
 interface SidebarProps {
   isOpen?: boolean
-  children?: React.ReactNode
 }
 
 const SidebarContainer = styled.div<SidebarProps>`
@@ -43,19 +43,18 @@ const ToggleButton = styled.button`
 
 const Content = styled.div<SidebarProps>`
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  gap: 1rem;
   padding: 20px;
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
   transition: opacity 0.3s ease;
   visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
-  color: #FFF;
+  color: #fff;
 `
 
-export const Sidebar: React.FC<SidebarProps> = ({
-  isOpen: defaultIsOpen = true,
-  children,
-}) => {
+export const Sidebar = ({ isOpen: defaultIsOpen = true }: SidebarProps) => {
   const [isOpen, setIsOpen] = useState(defaultIsOpen)
+  const { conversations } = useConversationStore()
 
   return (
     <>
@@ -65,10 +64,14 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
       <SidebarContainer isOpen={isOpen}>
         <Content isOpen={isOpen}>
-          <Link href='/'>
+          <Link href="/" style={{ marginLeft: '180px' }}>
             <SquarePen size={22} />
           </Link>
-          {children}
+          <ol>
+            {conversations?.map((conversation) => {
+              return <li>{conversation.firstMessage}</li>
+            })}
+          </ol>
         </Content>
       </SidebarContainer>
     </>

@@ -1,6 +1,7 @@
 'use client'
 import styled from 'styled-components'
 import { Bot } from 'lucide-react'
+import useConversationStore from '@/hooks/useConversationStore'
 
 const ConversationList = styled.div`
   display: flex;
@@ -51,33 +52,20 @@ const BotMessage = styled.p`
   color: black;
 `
 
-const mockConversations = [
-  {
-    id: '1234',
-    name: 'test',
-    message: 'sup',
-    sender: 'person',
-  },
-  {
-    id: '1235',
-    name: 'test',
-    message: `Here’s an example of a styled component in React to create a conversation list similar to the one used in this application. I'll assume you're using Styled Components for styling.`,
-    sender: 'bot',
-  },
-]
+export const Conversation = ({ id }) => {
+  const { conversations } = useConversationStore()
 
-export const Conversation = ({ conversations = mockConversations }) => {
   return (
     <ConversationList>
-      {conversations.map((conversation) => (
-        <ConversationItem key={conversation.id}>
-          <ConversationDetail sender={conversation.sender}>
-            {conversation.sender === 'person' ? (
-              <UserMessage>{conversation.message}</UserMessage>
+      {conversations[0]?.messages.map((message) => (
+        <ConversationItem key={message.id}>
+          <ConversationDetail sender={message.sender}>
+            {message.sender === 'person' ? (
+              <UserMessage>{message.message}</UserMessage>
             ) : (
               <BotWrapper>
                 <Bot size={40} />
-                <BotMessage>{conversation.message}</BotMessage>
+                <BotMessage>{message.message}</BotMessage>
               </BotWrapper>
             )}
           </ConversationDetail>

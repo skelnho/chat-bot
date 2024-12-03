@@ -13,6 +13,11 @@ a {
   text-decoration: none;
 }
 
+ul, li {
+  all: unset;
+  padding: 0;
+}
+
 .container {
   position: relative;
   display: flex;

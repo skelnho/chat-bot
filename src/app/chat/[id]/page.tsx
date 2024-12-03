@@ -12,7 +12,7 @@ export default async function Chat({
     <div className="container">
       <Sidebar />
       <main className="main bottom">
-        <Conversation />
+        <Conversation id={id} />
         <TextInput />
       </main>
     </div>
