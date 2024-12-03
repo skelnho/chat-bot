@@ -1,9 +1,10 @@
 'use client'
 import { Paperclip, SendHorizontal } from 'lucide-react'
-import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import React, { InputHTMLAttributes, useState } from 'react'
 import styled from 'styled-components'
 import useConversationStore from '@/hooks/useConversationStore'
+import _ from 'lodash'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string
@@ -15,7 +16,7 @@ interface StyledInputProps {
   error?: string
 }
 
-const InputWrapper = styled.div`
+const InputWrapper = styled.form`
   width: 100%;
   display: flex;
   justify-content: center;
@@ -70,42 +71,37 @@ export const TextInput = ({
 }: InputProps) => {
   const [text, setText] = useState('')
   const { addConversation } = useConversationStore()
+  const router = useRouter()
 
   const handleChange = (event) => {
     setText(event.target.value)
   }
 
   const handleMessage = () => {
-    addConversation({ id: '123', sender: 'person', message: text })
+    const conversationId = _.uniqueId()
+    const message = { sender: 'person', message: text }
+    addConversation(message, conversationId)
+    router.push(`/chat/${conversationId}`)
   }
 
   return (
-    <InputWrapper>
+    <InputWrapper onSubmit={handleMessage}>
       <Paperclip className="click" onClick={handleUpload} />
-
-      <StyledInput
-        value={text}
-        onChange={handleChange}
-        type={type}
-        placeholder={placeholder}
-        disabled={disabled}
-        required={required}
-        error={error}
-        {...props}
-      />
-      <Link
-        href="/chat/123"
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          pointerEvents: !text.length ? 'none' : 'auto',
-        }}
-      >
+        <StyledInput
+          value={text}
+          onChange={handleChange}
+          type={type}
+          placeholder={placeholder}
+          disabled={disabled}
+          required={required}
+          error={error}
+          {...props}
+        />
         <SendHorizontal
+          className='click'
           onClick={handleMessage}
           color={!text.length ? 'gray' : 'black'}
         />
-      </Link>
     </InputWrapper>
   )
 }

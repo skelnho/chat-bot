@@ -67,11 +67,13 @@ export const Sidebar = ({ isOpen: defaultIsOpen = true }: SidebarProps) => {
           <Link href="/" style={{ marginLeft: '180px' }}>
             <SquarePen size={22} />
           </Link>
-          <ol>
-            {conversations?.map((conversation) => {
-              return <li>{conversation.firstMessage}</li>
-            })}
-          </ol>
+          {conversations?.map((conversation) => {
+            return (
+              <Link href={`/chat/${conversation.id}`}>
+                <p id={conversation.id}>{conversation.firstMessage}</p>
+              </Link>
+            )
+          })}
         </Content>
       </SidebarContainer>
     </>

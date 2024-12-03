@@ -53,11 +53,13 @@ const BotMessage = styled.p`
 `
 
 export const Conversation = ({ id }) => {
-  const { conversations } = useConversationStore()
+  const { getConversation } = useConversationStore()
+
+  const conversation = getConversation(id)
 
   return (
     <ConversationList>
-      {conversations[0]?.messages.map((message) => (
+      {conversation?.messages.map((message) => (
         <ConversationItem key={message.id}>
           <ConversationDetail sender={message.sender}>
             {message.sender === 'person' ? (
