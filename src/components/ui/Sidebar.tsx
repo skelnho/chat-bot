@@ -5,6 +5,7 @@ import { PanelLeftDashed, SquarePen } from 'lucide-react'
 import Link from 'next/link'
 import { getSidebarConversations } from '@/app/chat/actions'
 import { Button } from './Button'
+import { Header } from './Header'
 
 interface SidebarProps {
   isOpen?: boolean
@@ -39,6 +40,7 @@ const Content = styled.div<SidebarProps>`
   color: #fff;
 `
 
+
 export const Sidebar = ({
   isOpen: defaultIsOpen = true,
   conversations,
@@ -58,7 +60,7 @@ export const Sidebar = ({
           </Link>
           {conversations.today.length > 0 ? (
             <>
-              <p>Today</p>
+              <p style={{ fontSize: '.8rem' }}>Today</p>
               {conversations.today.map((conversation) => (
                 <Link href={`/chat/${conversation.id}`}>
                   <p id={conversation.id}>{conversation.name}</p>

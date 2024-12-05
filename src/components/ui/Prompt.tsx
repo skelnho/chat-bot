@@ -1,5 +1,5 @@
 'use client'
-import { Paperclip, SendHorizontal } from 'lucide-react'
+import { OctagonX, Paperclip, SendHorizontal } from 'lucide-react'
 import React, { InputHTMLAttributes } from 'react'
 import { useChat } from 'ai/react'
 import styled from 'styled-components'
@@ -21,18 +21,18 @@ const InputWrapper = styled.form`
   justify-content: center;
   align-items: center;
   background-color: var(--background);
-  border: 1px solid #d1d5db;
   border-radius: 1.25rem;
   padding: 0 0.75rem;
   margin-bottom: 1rem;
 `
 
-const StyledInput = styled.input<StyledInputProps>`
+const StyledInput = styled.textarea<StyledInputProps>`
   width: 100%;
   padding: 0.5rem 1rem;
   font-size: 1rem;
   line-height: 1.5;
   color: var(--foreground);
+  background-color: #2F2F2F;
   border: none;
 
   &:focus {
@@ -69,6 +69,16 @@ export const Prompt = ({
   const { messages, input, handleSubmit, handleInputChange, isLoading } =
     useChat({ initialMessages, body: { conversationId: conversation?.id } })
 
+  const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter') {
+      if (event.shiftKey) {
+        return
+      }
+      event.preventDefault()
+      handleSubmit()
+    }
+  }
+
   return (
     <>
       <Messages data={messages} />
@@ -79,16 +89,26 @@ export const Prompt = ({
         <StyledInput
           value={input}
           onChange={handleInputChange}
+          onKeyDown={handleKeyDown}
           placeholder={placeholder}
           {...props}
         />
         <Button disabled={isLoading} onClick={handleSubmit}>
-          <SendHorizontal
-            size={20}
-            style={{
-              marginLeft: '.4rem',
-            }}
-          />
+          {isLoading ? (
+            <OctagonX
+              size={20}
+              style={{
+                marginLeft: '.4rem',
+              }}
+            />
+          ) : (
+            <SendHorizontal
+              size={20}
+              style={{
+                marginLeft: '.4rem',
+              }}
+            />
+          )}
         </Button>
       </InputWrapper>
     </>

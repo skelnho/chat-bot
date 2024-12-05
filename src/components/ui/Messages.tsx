@@ -1,7 +1,9 @@
 import styled from 'styled-components'
 import { Bot } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+// import remarkGfm from 'remark-gfm'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 const ConversationList = styled.div`
   display: flex;
@@ -25,7 +27,7 @@ const ConversationDetail = styled.div`
 `
 
 const UserMessage = styled.p`
-  background-color: #323232d9;
+  background-color: #2F2F2F;
   border-radius: 1.25rem;
   padding: 0.75rem 1rem;
   font-size: 16px;
@@ -38,7 +40,7 @@ const BotWrapper = styled.div`
   flex: 1;
   align-items: flex-end;
   gap: 1rem;
-  color: var(--foreground)
+  color: var(--foreground);
 `
 
 const BotMessage = styled.p`
@@ -61,9 +63,34 @@ export const Messages = ({ data }: { data: unknown }) => {
                   </UserMessage>
                 ) : (
                   <BotWrapper>
-                    <Bot size={30} />
+                    {/* <Bot size={30} /> */}
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      <ReactMarkdown
+                        components={{
+                          code(props) {
+                            const { children, className, node, ...rest } = props
+                            const match = /language-(\w+)/.exec(className || '')
+                            return match ? (
+                              <SyntaxHighlighter
+                                {...rest}
+                                PreTag="div"
+                                language={match[1]}
+                                style={tomorrow}
+                                customStyle={{
+                                  borderRadius: '.5rem',
+                                  backgroundColor: 'black',
+                                }}
+                              >
+                                {String(children).replace(/\n$/, '')}
+                              </SyntaxHighlighter>
+                            ) : (
+                              <code {...rest} className={className}>
+                                {children}
+                              </code>
+                            )
+                          },
+                        }}
+                      >
                         {message.content}
                       </ReactMarkdown>
                     </div>
