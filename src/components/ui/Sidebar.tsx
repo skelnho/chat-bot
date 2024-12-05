@@ -55,41 +55,41 @@ export const Sidebar = ({
 
       <SidebarContainer isOpen={isOpen}>
         <Content isOpen={isOpen}>
-          <Link href="/" style={{ marginLeft: '180px' }}>
+          <Link href="/" style={{ marginLeft: '90%' }}>
             <SquarePen size={20} />
           </Link>
           {conversations.today.length > 0 ? (
             <>
               <p style={{ fontSize: '.8rem' }}>Today</p>
-              {conversations.today.map((conversation) => (
-                <Link href={`/chat/${conversation.id}`}>
+              {conversations?.today?.map((conversation) => (
+                <Link key={conversation.id} href={`/chat/${conversation.id}`}>
                   <p id={conversation.id}>{conversation.name}</p>
                 </Link>
               ))}
             </>
           ) : null}
 
-          {/* {conversations.yesterday.length > 0 ? (
+          {conversations?.yesterday.length > 0 ? (
             <>
               <p>Yesterday</p>
-              {conversations.yesterday.map((conversation) => (
-                <Link href={`/chat/${conversation.id}`}>
+              {conversations.yesterday?.map((conversation) => (
+                <Link key={conversation.id} href={`/chat/${conversation.id}`}>
                   <p id={conversation.id}>{conversation.name}</p>
                 </Link>
               ))}
             </>
           ) : null}
 
-          {conversations.previous7days.length > 0 ? (
+          {conversations?.previous7days?.length > 0 ? (
             <>
               <p>Previous 7 Days</p>
               {conversations.previous7days.map((conversation) => (
-                <Link href={`/chat/${conversation.id}`}>
+                <Link key={conversation.id} href={`/chat/${conversation.id}`}>
                   <p id={conversation.id}>{conversation.name}</p>
                 </Link>
               ))}
             </>
-          ) : null} */}
+          ) : null}
         </Content>
       </SidebarContainer>
     </>

@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { Messages } from './Messages'
 import { useRouter } from 'next/navigation'
 import { Button } from './Button'
+import { useModelStore } from '@/hooks/useModelStore'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   conversation?: unknown
@@ -163,16 +164,13 @@ const FilesDisplay = ({ files, setFiles }) => (
   </Container>
 )
 
-const handleUpload = () => {
-  console.log('hello')
-}
-
 export const Prompt = ({
   placeholder = 'Send a message...',
   conversation,
   ...props
 }: InputProps) => {
   const initialMessages = conversation?.messages || []
+  const { selectedModel, temperature } = useModelStore()
   const {
     append,
     messages,
@@ -181,7 +179,7 @@ export const Prompt = ({
     handleSubmit,
     handleInputChange,
     isLoading,
-  } = useChat({ initialMessages, body: { conversationId: conversation?.id } })
+  } = useChat({ initialMessages, body: { conversationId: conversation?.id, modelSelection: { name: selectedModel.name, temperature } } })
 
   const [files, setFiles] = useState<FileList | undefined>(undefined)
 

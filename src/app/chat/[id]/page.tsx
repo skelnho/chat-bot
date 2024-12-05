@@ -1,6 +1,7 @@
 import { Sidebar } from '@/components/ui/Sidebar'
 import { Header } from '@/components/ui/Header'
 import { Prompt } from '@/components/ui/Prompt'
+import { Nav } from '@/components/Nav'
 
 import { getConversation, getSidebarConversations } from '../actions'
 
@@ -16,9 +17,12 @@ export default async function Chat({
   return (
     <div className="container">
       <Sidebar conversations={conversations} />
-      <main className="main">
-        <Prompt conversation={conversation} />
-      </main>
+      <div style={{ display: 'flex', height: '100%', width: '100%', flexDirection: 'column' }}>
+        <Nav />
+        <main className="main">
+          <Prompt conversation={conversation}/>
+        </main>
+      </div>
     </div>
   )
 }

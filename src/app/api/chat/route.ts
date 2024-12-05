@@ -9,8 +9,10 @@ export async function POST(req: Request) {
     //   return new Response('Unauthorized', { status: 401 })
     // }
 
-    const { messages, conversationId } = await req.json()
+    const { messages, conversationId, modelSelection } = await req.json()
     const newMessage = messages[messages.length - 1]
+
+    console.log(modelSelection)
 
     // Get user from database
     // const user = await prisma.user.findUnique({
@@ -23,9 +25,10 @@ export async function POST(req: Request) {
 
     // Generate AI response
     const result = streamText({
-      model: openai('gpt-4o'),
+      model: openai(modelSelection.name),
       system: 'You are a helpful assistant.',
       messages,
+      temperature: modelSelection.temperature,
       async onFinish({ text }) {
         let conversation
 
