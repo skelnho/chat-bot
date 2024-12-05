@@ -1,18 +1,8 @@
+import { useRef, useEffect } from 'react'
 import styled from 'styled-components'
-import { Bot } from 'lucide-react'
 import ReactMarkdown from 'react-markdown'
-// import remarkGfm from 'remark-gfm'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { tomorrow } from 'react-syntax-highlighter/dist/esm/styles/prism'
-
-const ConversationList = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100vh;
-  overflow-y: auto;
-  padding: 1rem;
-`
 
 const ConversationItem = styled.div`
   display: flex;
@@ -27,7 +17,7 @@ const ConversationDetail = styled.div`
 `
 
 const UserMessage = styled.p`
-  background-color: #2F2F2F;
+  background-color: #2f2f2f;
   border-radius: 1.25rem;
   padding: 0.75rem 1rem;
   font-size: 16px;
@@ -43,17 +33,36 @@ const BotWrapper = styled.div`
   color: var(--foreground);
 `
 
-const BotMessage = styled.p`
-  font-weight: bold;
-  font-size: 16px;
-  color: black;
+const StyledDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  overflow-y: auto;
+  padding: 1rem;
 `
+
+const AutoScroll = ({ children }: { children: React.ReactNode }) => {
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const scrollToBottom = () => {
+      if (containerRef.current) {
+        containerRef.current.scrollTop = containerRef.current.scrollHeight
+      }
+    }
+
+    scrollToBottom()
+  }, [children])
+
+  return <StyledDiv ref={containerRef}>{children}</StyledDiv>
+}
 
 export const Messages = ({ data }: { data: unknown }) => {
   if (data?.length) {
     return (
       <>
-        <ConversationList>
+        <AutoScroll>
           {data?.map((message) => (
             <ConversationItem key={message.id}>
               <ConversationDetail>
@@ -63,12 +72,11 @@ export const Messages = ({ data }: { data: unknown }) => {
                   </UserMessage>
                 ) : (
                   <BotWrapper>
-                    {/* <Bot size={30} /> */}
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <ReactMarkdown
                         components={{
                           code(props) {
-                            const { children, className, node, ...rest } = props
+                            const { children, className, ...rest } = props
                             const match = /language-(\w+)/.exec(className || '')
                             return match ? (
                               <SyntaxHighlighter
@@ -94,13 +102,12 @@ export const Messages = ({ data }: { data: unknown }) => {
                         {message.content}
                       </ReactMarkdown>
                     </div>
-                    {/* <BotMessage></BotMessage> */}
                   </BotWrapper>
                 )}
               </ConversationDetail>
             </ConversationItem>
           ))}
-        </ConversationList>
+        </AutoScroll>
       </>
     )
   }

@@ -53,6 +53,9 @@ export async function getSidebarConversations() {
         id: true,
         updatedAt: true,
       },
+      orderBy: {
+        updatedAt: 'desc',
+      },
     })
 
     const now = new Date()

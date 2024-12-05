@@ -21,17 +21,21 @@ export async function POST(req: Request) {
     //   return new Response('User not found', { status: 404 })
     // }
 
-
     // Generate AI response
     const result = streamText({
-      model: openai('gpt-4'),
+      model: openai('gpt-4o'),
       system: 'You are a helpful assistant.',
       messages,
       async onFinish({ text }) {
         let conversation
 
+        if (newMessage.experimental_attachments) {
+          // TODO: hook up to s3 bucket. not doing that from a work account
+          delete newMessage.experimental_attachments
+
+        }
+
         if (conversationId) {
-          // Update existing conversation
           conversation = await prisma.conversation.update({
             where: { id: conversationId },
             data: {

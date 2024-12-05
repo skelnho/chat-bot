@@ -47,6 +47,16 @@ model Message {
   revisionId     String?
   Conversation   Conversation? @relation(fields: [conversationId], references: [id])
   conversationId String?
+  images         Image[]
+}
+
+model Image {
+  id          String   @id @default(cuid())
+  name        String
+  contentType String
+  url         String
+  message     Message  @relation(fields: [messageId], references: [id])
+  messageId   String
 }
 
 model Conversation {
