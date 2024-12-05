@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { PanelLeftDashed, SquarePen } from 'lucide-react'
 import Link from 'next/link'
 import { getSidebarConversations } from '@/app/chat/actions'
+import { Button } from './Button'
 
 interface SidebarProps {
   isOpen?: boolean
@@ -20,26 +21,11 @@ const SidebarContainer = styled.div<SidebarProps>`
   z-index: 1000;
 `
 
-const ToggleButton = styled.button`
+const ToggleButton = styled(Button)`
   position: fixed;
   left: 20px;
   top: 20px;
-  width: 24px;
-  height: 24px;
-  background: #ffffff;
-  border: none;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
   z-index: 1001;
-
-  &:hover {
-    background: #f0f0f0;
-  }
 `
 
 const Content = styled.div<SidebarProps>`
@@ -62,13 +48,13 @@ export const Sidebar = ({
   return (
     <>
       <ToggleButton onClick={() => setIsOpen(!isOpen)}>
-        <PanelLeftDashed size={16} />
+        <PanelLeftDashed size={20} />
       </ToggleButton>
 
       <SidebarContainer isOpen={isOpen}>
         <Content isOpen={isOpen}>
           <Link href="/" style={{ marginLeft: '180px' }}>
-            <SquarePen size={22} />
+            <SquarePen size={20} />
           </Link>
           {conversations.today.length > 0 ? (
             <>

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
+import { ThemeProvider } from 'next-themes'
 import './globals.css'
 import StyledComponentsRegistry from '../lib/registry'
 
@@ -19,16 +20,19 @@ export const metadata: Metadata = {
   description: 'Ask me anything',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <StyledComponentsRegistry>
-          {children}
+          <ThemeProvider>
+            {children}
+          </ThemeProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

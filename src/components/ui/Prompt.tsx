@@ -5,6 +5,7 @@ import { useChat } from 'ai/react'
 import styled from 'styled-components'
 import { Messages } from './Messages'
 import { useRouter } from 'next/navigation'
+import { Button } from './Button'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   conversation?: unknown
@@ -19,7 +20,7 @@ const InputWrapper = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff;
+  background-color: var(--background);
   border: 1px solid #d1d5db;
   border-radius: 1.25rem;
   padding: 0 0.75rem;
@@ -31,7 +32,7 @@ const StyledInput = styled.input<StyledInputProps>`
   padding: 0.5rem 1rem;
   font-size: 1rem;
   line-height: 1.5;
-  color: #1f2937;
+  color: var(--foreground);
   border: none;
 
   &:focus {
@@ -60,37 +61,35 @@ const handleUpload = () => {
 }
 
 export const Prompt = ({
-  placeholder = 'Message Chatbot',
+  placeholder = 'Send a message...',
   conversation,
   ...props
 }: InputProps) => {
   const initialMessages = conversation?.messages || []
-  const {
-    messages,
-    input,
-    handleSubmit,
-    handleInputChange,
-    isLoading,
-  } = useChat({ initialMessages, body: { conversationId: conversation?.id } })
-
+  const { messages, input, handleSubmit, handleInputChange, isLoading } =
+    useChat({ initialMessages, body: { conversationId: conversation?.id } })
 
   return (
     <>
       <Messages data={messages} />
       <InputWrapper onSubmit={handleSubmit}>
-        <Paperclip className="click" onClick={handleUpload} />
+        <Button disabled={isLoading} onClick={handleUpload}>
+          <Paperclip size={20} style={{ marginRight: '.4rem' }} />
+        </Button>
         <StyledInput
           value={input}
           onChange={handleInputChange}
           placeholder={placeholder}
-          disabled={isLoading}
           {...props}
         />
-        <SendHorizontal
-          className="click"
-          onClick={handleSubmit}
-          color={isLoading ? 'gray' : 'black'}
-        />
+        <Button disabled={isLoading} onClick={handleSubmit}>
+          <SendHorizontal
+            size={20}
+            style={{
+              marginLeft: '.4rem',
+            }}
+          />
+        </Button>
       </InputWrapper>
     </>
   )

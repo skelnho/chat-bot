@@ -9,7 +9,7 @@ export default async function Home() {
     <div className="container">
       <Sidebar conversations={conversations} />
       <main className="main">
-        <Header align="center">What can I help with?</Header>
+        <Header align="center">Talk data to me.</Header>
         <Prompt />
       </main>
     </div>

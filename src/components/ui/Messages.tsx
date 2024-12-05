@@ -6,7 +6,6 @@ import remarkGfm from 'remark-gfm'
 const ConversationList = styled.div`
   display: flex;
   flex-direction: column;
-  background-color: #f7f7f7;
   width: 100%;
   height: 100vh;
   overflow-y: auto;
@@ -26,10 +25,9 @@ const ConversationDetail = styled.div`
 `
 
 const UserMessage = styled.p`
-  background-color: #2f2f2f;
+  background-color: #323232d9;
   border-radius: 1.25rem;
-  padding: 0.75rem;
-  font-weight: bold;
+  padding: 0.75rem 1rem;
   font-size: 16px;
   color: #fff;
 `
@@ -40,6 +38,7 @@ const BotWrapper = styled.div`
   flex: 1;
   align-items: flex-end;
   gap: 1rem;
+  color: var(--foreground)
 `
 
 const BotMessage = styled.p`
@@ -62,7 +61,7 @@ export const Messages = ({ data }: { data: unknown }) => {
                   </UserMessage>
                 ) : (
                   <BotWrapper>
-                    <Bot size={40} />
+                    <Bot size={30} />
                     <div style={{ display: 'flex', flexDirection: 'column' }}>
                       <ReactMarkdown remarkPlugins={[remarkGfm]}>
                         {message.content}

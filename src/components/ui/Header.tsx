@@ -14,7 +14,7 @@ interface HeaderProps {
 const baseHeaderStyles = css<HeaderProps>`
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
     Ubuntu, Cantarell, sans-serif;
-  color: ${({ color }) => color || '#1a1a1a'};
+  color: var(--foreground);
   text-align: ${({ align }) => align || 'left'};
   margin-bottom: ${({ marginBottom }) => marginBottom || '0.5em'};
   line-height: 1.2;
