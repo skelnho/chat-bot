@@ -3,10 +3,11 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { PanelLeftDashed, SquarePen } from 'lucide-react'
 import Link from 'next/link'
-import useConversationStore from '@/hooks/useConversationStore'
+import { getSidebarConversations } from '@/app/chat/actions'
 
 interface SidebarProps {
   isOpen?: boolean
+  conversations: unknown
 }
 
 const SidebarContainer = styled.div<SidebarProps>`
@@ -52,9 +53,11 @@ const Content = styled.div<SidebarProps>`
   color: #fff;
 `
 
-export const Sidebar = ({ isOpen: defaultIsOpen = true }: SidebarProps) => {
+export const Sidebar = ({
+  isOpen: defaultIsOpen = true,
+  conversations,
+}: SidebarProps) => {
   const [isOpen, setIsOpen] = useState(defaultIsOpen)
-  const { conversations } = useConversationStore()
 
   return (
     <>
@@ -67,13 +70,38 @@ export const Sidebar = ({ isOpen: defaultIsOpen = true }: SidebarProps) => {
           <Link href="/" style={{ marginLeft: '180px' }}>
             <SquarePen size={22} />
           </Link>
-          {conversations?.map((conversation) => {
-            return (
-              <Link href={`/chat/${conversation.id}`}>
-                <p id={conversation.id}>{conversation.firstMessage}</p>
-              </Link>
-            )
-          })}
+          {conversations.today.length > 0 ? (
+            <>
+              <p>Today</p>
+              {conversations.today.map((conversation) => (
+                <Link href={`/chat/${conversation.id}`}>
+                  <p id={conversation.id}>{conversation.name}</p>
+                </Link>
+              ))}
+            </>
+          ) : null}
+
+          {/* {conversations.yesterday.length > 0 ? (
+            <>
+              <p>Yesterday</p>
+              {conversations.yesterday.map((conversation) => (
+                <Link href={`/chat/${conversation.id}`}>
+                  <p id={conversation.id}>{conversation.name}</p>
+                </Link>
+              ))}
+            </>
+          ) : null}
+
+          {conversations.previous7days.length > 0 ? (
+            <>
+              <p>Previous 7 Days</p>
+              {conversations.previous7days.map((conversation) => (
+                <Link href={`/chat/${conversation.id}`}>
+                  <p id={conversation.id}>{conversation.name}</p>
+                </Link>
+              ))}
+            </>
+          ) : null} */}
         </Content>
       </SidebarContainer>
     </>

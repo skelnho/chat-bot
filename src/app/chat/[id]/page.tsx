@@ -1,6 +1,8 @@
 import { Sidebar } from '@/components/ui/Sidebar'
-import { TextInput } from '@/components/ui/TextInput'
-import { Conversation } from './Conversation'
+import { Header } from '@/components/ui/Header'
+import { Prompt } from '@/components/ui/Prompt'
+
+import { getConversation, getSidebarConversations } from '../actions'
 
 export default async function Chat({
   params,
@@ -8,12 +10,14 @@ export default async function Chat({
   params: Promise<{ id: string }>
 }) {
   const id = (await params).id
+  const conversation = await getConversation(id)
+  const conversations = await getSidebarConversations()
+
   return (
     <div className="container">
-      <Sidebar />
-      <main className="main bottom">
-        <Conversation id={id} />
-        <TextInput />
+      <Sidebar conversations={conversations} />
+      <main className="main">
+        <Prompt conversation={conversation} />
       </main>
     </div>
   )

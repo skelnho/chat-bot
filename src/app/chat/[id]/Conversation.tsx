@@ -1,7 +1,9 @@
 'use client'
 import styled from 'styled-components'
 import { Bot } from 'lucide-react'
-import useConversationStore from '@/hooks/useConversationStore'
+import { TextInput } from '@/components/ui/Prompt'
+import React, { useEffect } from 'react'
+import { generateRandomId } from '@/lib/utils'
 
 const ConversationList = styled.div`
   display: flex;
@@ -15,18 +17,18 @@ const ConversationList = styled.div`
 
 const ConversationItem = styled.div`
   display: flex;
+  flex-direction: column;
   margin-bottom: 1rem;
 `
 
 interface ConversationDetailProps {
-    sender: string
+  sender: string
 }
 
 const ConversationDetail = styled.div<ConversationDetailProps>`
   display: flex;
+  flex-direction: column;
   flex: 1;
-  justify-content: ${({ sender }) =>
-    sender === 'person' ? 'flex-end' : 'flex-start'};
 `
 
 const UserMessage = styled.p`
@@ -35,7 +37,7 @@ const UserMessage = styled.p`
   padding: 0.75rem;
   font-weight: bold;
   font-size: 16px;
-  color: #FFF;
+  color: #fff;
 `
 
 const BotWrapper = styled.div`
@@ -52,27 +54,25 @@ const BotMessage = styled.p`
   color: black;
 `
 
-export const Conversation = ({ id }) => {
-  const { getConversation } = useConversationStore()
-
-  const conversation = getConversation(id)
+export const MessageList = ({ data }: { data: unknown }) => {
 
   return (
-    <ConversationList>
-      {conversation?.messages.map((message) => (
-        <ConversationItem key={message.id}>
-          <ConversationDetail sender={message.sender}>
-            {message.sender === 'person' ? (
-              <UserMessage>{message.message}</UserMessage>
-            ) : (
+    <>
+      <ConversationList>
+        {conversation?.messages?.map((message) => (
+          <ConversationItem key={message.id}>
+            <ConversationDetail sender={message.sender}>
+              <UserMessage style={{ marginLeft: 'auto' }}>
+                {message.question}
+              </UserMessage>
               <BotWrapper>
                 <Bot size={40} />
-                <BotMessage>{message.message}</BotMessage>
+                <BotMessage>{message.answer}</BotMessage>
               </BotWrapper>
-            )}
-          </ConversationDetail>
-        </ConversationItem>
-      ))}
-    </ConversationList>
+            </ConversationDetail>
+          </ConversationItem>
+        ))}
+      </ConversationList>
+    </>
   )
 }
