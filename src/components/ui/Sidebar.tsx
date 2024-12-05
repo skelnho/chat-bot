@@ -3,13 +3,13 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { PanelLeftDashed, SquarePen } from 'lucide-react'
 import Link from 'next/link'
-import { getSidebarConversations } from '@/app/chat/actions'
 import { Button } from './Button'
 import { Header } from './Header'
 
 interface SidebarProps {
   isOpen?: boolean
   conversations: unknown
+  session: unknown
 }
 
 const SidebarContainer = styled.div<SidebarProps>`
@@ -40,10 +40,10 @@ const Content = styled.div<SidebarProps>`
   color: #fff;
 `
 
-
 export const Sidebar = ({
   isOpen: defaultIsOpen = true,
   conversations,
+  session,
 }: SidebarProps) => {
   const [isOpen, setIsOpen] = useState(defaultIsOpen)
 
@@ -58,38 +58,53 @@ export const Sidebar = ({
           <Link href="/" style={{ marginLeft: '90%' }}>
             <SquarePen size={20} />
           </Link>
-          {conversations.today.length > 0 ? (
+          {!session ? (
+            <p>Login to save and revisit previous chats!</p>
+          ) : (
             <>
-              <p style={{ fontSize: '.8rem' }}>Today</p>
-              {conversations?.today?.map((conversation) => (
-                <Link key={conversation.id} href={`/chat/${conversation.id}`}>
-                  <p id={conversation.id}>{conversation.name}</p>
-                </Link>
-              ))}
-            </>
-          ) : null}
+              {conversations.today.length > 0 ? (
+                <>
+                  <p style={{ fontSize: '.8rem' }}>Today</p>
+                  {conversations?.today?.map((conversation) => (
+                    <Link
+                      key={conversation.id}
+                      href={`/chat/${conversation.id}`}
+                    >
+                      <p id={conversation.id}>{conversation.name}</p>
+                    </Link>
+                  ))}
+                </>
+              ) : null}
 
-          {conversations?.yesterday.length > 0 ? (
-            <>
-              <p>Yesterday</p>
-              {conversations.yesterday?.map((conversation) => (
-                <Link key={conversation.id} href={`/chat/${conversation.id}`}>
-                  <p id={conversation.id}>{conversation.name}</p>
-                </Link>
-              ))}
-            </>
-          ) : null}
+              {conversations?.yesterday.length > 0 ? (
+                <>
+                  <p>Yesterday</p>
+                  {conversations.yesterday?.map((conversation) => (
+                    <Link
+                      key={conversation.id}
+                      href={`/chat/${conversation.id}`}
+                    >
+                      <p id={conversation.id}>{conversation.name}</p>
+                    </Link>
+                  ))}
+                </>
+              ) : null}
 
-          {conversations?.previous7days?.length > 0 ? (
-            <>
-              <p>Previous 7 Days</p>
-              {conversations.previous7days.map((conversation) => (
-                <Link key={conversation.id} href={`/chat/${conversation.id}`}>
-                  <p id={conversation.id}>{conversation.name}</p>
-                </Link>
-              ))}
+              {conversations?.previous7days?.length > 0 ? (
+                <>
+                  <p>Previous 7 Days</p>
+                  {conversations.previous7days.map((conversation) => (
+                    <Link
+                      key={conversation.id}
+                      href={`/chat/${conversation.id}`}
+                    >
+                      <p id={conversation.id}>{conversation.name}</p>
+                    </Link>
+                  ))}
+                </>
+              ) : null}
             </>
-          ) : null}
+          )}
         </Content>
       </SidebarContainer>
     </>
