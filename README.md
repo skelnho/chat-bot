@@ -167,8 +167,8 @@ Vitest was chosen as our unit testing framework.
 
 ## Quick Demo
 ### Unauthenticated Chat with attachment
-![Attachment](./demo-attachment)
-![Session](./demo-session)
+![Attachment](https://github.com/skelnho/chat-bot/blob/main/demo-attachment.gif)
+![Session](https://github.com/skelnho/chat-bot/blob/main/demo-session.gif)
 
 ## Upcoming Features
 
