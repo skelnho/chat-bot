@@ -196,7 +196,7 @@ export const Prompt = ({
       }
     },
     onFinish: () => {
-      if (newConversationIdRef) {
+      if (newConversationIdRef.current.length) {
         router.push(`/chat/${newConversationIdRef.current}`)
       }
     },
@@ -267,7 +267,7 @@ export const Prompt = ({
             placeholder={placeholder}
             {...props}
           />
-          <Button disabled={isLoading} onClick={handleFormSubmit}>
+          <Button disabled={isLoading || !input.length} onClick={handleFormSubmit}>
             {isLoading ? (
               <OctagonX
                 size={20}
