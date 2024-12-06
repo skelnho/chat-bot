@@ -4,6 +4,8 @@ import { Session } from 'next-auth'
 
 import { logIn, logOut } from '@/app/actions'
 
+import { TooltipWrapper, TooltipContent } from './ui/ToolTip'
+
 export interface LoginProps {
   session: Session | null
 }
@@ -56,10 +58,13 @@ export const Login = async ({ session }: LoginProps) => {
     const { name, image } = session.user
 
     return (
-      <BadgeContainer onClick={logOut}>
-        {image && <ProfileImage src={image} alt={`${name}'s profile`} />}
-        <UserName>{name}</UserName>
-      </BadgeContainer>
+      <TooltipWrapper>
+        <BadgeContainer onClick={logOut}>
+          {image && <ProfileImage src={image} alt={`${name}'s profile`} />}
+          <UserName>{name}</UserName>
+        </BadgeContainer>
+        <TooltipContent>Logout</TooltipContent>
+      </TooltipWrapper>
     )
   }
 
