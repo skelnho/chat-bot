@@ -9,6 +9,16 @@ This is a Chatbot created with Nextjs.
 - Syntax Highlighting from Responses using [react-syntax-highlighter](https://www.npmjs.com/package/react-syntax-highlighter)
 - [Zustand](https://github.com/pmndrs/zustand) for global state
 
+## Demo
+
+### Unauthenticated Chat with Attachment
+
+![Attachment](https://github.com/skelnho/chat-bot/blob/main/demo-attachment.gif)
+
+### Session with Persistent Data
+
+![Session](https://github.com/skelnho/chat-bot/blob/main/demo-session.gif)
+
 ## Getting Started
 
 First, run the development server:
@@ -56,7 +66,7 @@ SQLite was selected as the primary database.
 
 - Zero-configuration database that works out of the box
 - File-based storage eliminates need for separate database server
-- Perfect for development of toy applications 
+- Perfect for development of toy applications
 
 ### Trade-offs
 
@@ -164,14 +174,6 @@ Vitest was chosen as our unit testing framework.
 - Implement E2E testing with Playwright or Cypress
 - Set up continuous integration pipeline
 - Establish code coverage targets
-
-## Quick Demo
-### Unauthenticated Chat with Attachment
-![Attachment](https://github.com/skelnho/chat-bot/blob/main/demo-attachment.gif)
-
-
-### Session with Persistent Data
-![Session](https://github.com/skelnho/chat-bot/blob/main/demo-session.gif)
 
 ## Upcoming Features
 
