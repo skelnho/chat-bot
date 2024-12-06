@@ -26,7 +26,6 @@ export default async function Home() {
         </Nav>
 
         <main className="main">
-          <Header align="center">Talk data to me.</Header>
           <Prompt />
         </main>
       </div>

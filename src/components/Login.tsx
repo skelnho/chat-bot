@@ -1,4 +1,6 @@
 import { signIn, signOut } from '@/lib/auth'
+import { redirect } from 'next/navigation'
+import styled from 'styled-components'
 
 const styles = {
   badge: {
@@ -7,7 +9,6 @@ const styles = {
     gap: '0.75rem',
     backgroundColor: '#1f2937',
     color: '#e2e8f0',
-    border: '1px solid #4a5568',
     padding: '0.5rem 1rem',
     borderRadius: '0.375rem',
     fontSize: '0.875rem',

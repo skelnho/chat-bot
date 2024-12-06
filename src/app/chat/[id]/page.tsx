@@ -1,7 +1,9 @@
 import { Sidebar } from '@/components/ui/Sidebar'
-import { Header } from '@/components/ui/Header'
 import { Prompt } from '@/components/ui/Prompt'
 import { Nav } from '@/components/Nav'
+import { Login } from '@/components/Login'
+import { redirect } from 'next/navigation'
+import { auth } from '@/lib/auth'
 
 import { getConversation, getSidebarConversations } from '../actions'
 
@@ -10,17 +12,32 @@ export default async function Chat({
 }: {
   params: Promise<{ id: string }>
 }) {
+  const session = await auth()
+  
+  if (!session?.user) {
+    redirect('/')
+  }
+
   const id = (await params).id
   const conversation = await getConversation(id)
   const conversations = await getSidebarConversations()
 
   return (
     <div className="container">
-      <Sidebar conversations={conversations} />
-      <div style={{ display: 'flex', height: '100%', width: '100%', flexDirection: 'column' }}>
-        <Nav />
+      <Sidebar conversations={conversations} session={session} />
+      <div
+        style={{
+          display: 'flex',
+          height: '100%',
+          width: '100%',
+          flexDirection: 'column',
+        }}
+      >
+        <Nav>
+          <Login session={session} />
+        </Nav>
         <main className="main">
-          <Prompt conversation={conversation}/>
+          <Prompt conversation={conversation} />
         </main>
       </div>
     </div>

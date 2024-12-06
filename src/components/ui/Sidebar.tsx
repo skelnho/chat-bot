@@ -8,7 +8,7 @@ import { Header } from './Header'
 
 interface SidebarProps {
   isOpen?: boolean
-  conversations: unknown
+  conversations?: unknown
   session: unknown
 }
 
@@ -62,7 +62,7 @@ export const Sidebar = ({
             <p>Login to save and revisit previous chats!</p>
           ) : (
             <>
-              {conversations.today.length > 0 ? (
+              {conversations?.today.length > 0 ? (
                 <>
                   <p style={{ fontSize: '.8rem' }}>Today</p>
                   {conversations?.today?.map((conversation) => (

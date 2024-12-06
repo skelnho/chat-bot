@@ -3,10 +3,12 @@ import { CircleX, OctagonX, Paperclip, SendHorizontal } from 'lucide-react'
 import React, { useRef, InputHTMLAttributes, useState } from 'react'
 import { useChat } from 'ai/react'
 import styled from 'styled-components'
-import { Messages } from './Messages'
 import { useRouter } from 'next/navigation'
-import { Button } from './Button'
 import { useModelStore } from '@/hooks/useModelStore'
+
+import { Messages } from './Messages'
+import { Button } from './Button'
+import { Header } from './Header'
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   conversation?: unknown
@@ -170,7 +172,9 @@ export const Prompt = ({
   ...props
 }: InputProps) => {
   const initialMessages = conversation?.messages || []
+  const newConversationIdRef = useRef('')
   const { selectedModel, temperature } = useModelStore()
+  const router = useRouter()
   const {
     append,
     messages,
@@ -179,7 +183,24 @@ export const Prompt = ({
     handleSubmit,
     handleInputChange,
     isLoading,
-  } = useChat({ initialMessages, body: { conversationId: conversation?.id, modelSelection: { name: selectedModel.name, temperature } } })
+  } = useChat({
+    initialMessages,
+    body: {
+      conversationId: conversation?.id,
+      modelSelection: { name: selectedModel.name, temperature },
+    },
+    onResponse: (response) => {
+      const newConversationId = response.headers.get('X-Conversation-Id')
+      if (newConversationId) {
+        newConversationIdRef.current = newConversationId
+      }
+    },
+    onFinish: () => {
+      if (newConversationIdRef) {
+        router.push(`/chat/${newConversationIdRef.current}`)
+      }
+    },
+  })
 
   const [files, setFiles] = useState<FileList | undefined>(undefined)
 
@@ -199,7 +220,6 @@ export const Prompt = ({
     e.preventDefault()
 
     if (e.target.files) {
-      console.log(e.target.files)
       setFiles(e.target.files)
     }
   }
@@ -227,6 +247,9 @@ export const Prompt = ({
 
   return (
     <>
+      {!messages.length ? (
+        <Header align="center">Talk data to me.</Header>
+      ) : null}
       <Messages data={messages} />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
         <FilesDisplay files={files} setFiles={setFiles} />
