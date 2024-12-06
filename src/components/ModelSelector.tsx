@@ -2,6 +2,7 @@
 import styled from 'styled-components'
 import { useEffect, useRef, useState } from 'react'
 import { ChevronDown, Check } from 'lucide-react'
+
 import { useModelStore } from '@/hooks/useModelStore'
 
 const Container = styled.div`
@@ -16,10 +17,10 @@ const DropdownButton = styled.button`
   align-items: center;
   justify-content: space-between;
   padding: 0.5rem 1rem;
-  background-color: #1f2937;
   color: white;
   border-radius: 0.5rem;
   border: none;
+  background-color: #1f2937;
   transition: background-color 0.2s;
 
   &:hover {
@@ -27,11 +28,11 @@ const DropdownButton = styled.button`
   }
 `
 
-const ChevronIcon = styled(ChevronDown)`
+const ChevronIcon = styled(ChevronDown)<{ isOpen: boolean }>`
   width: 1rem;
   height: 1rem;
   transition: transform 0.2s;
-  transform: ${(props) => (props.$isOpen ? 'rotate(180deg)' : 'rotate(0)')};
+  transform: ${(props) => (props.isOpen ? 'rotate(180deg)' : 'rotate(0)')};
 `
 
 const DropdownContent = styled.div`
@@ -102,24 +103,6 @@ const Slider = styled.input.attrs({ type: 'range' })`
   border-radius: 0.25rem;
   appearance: none;
   margin: 0.75rem 0;
-
-  &::-webkit-slider-thumb {
-    appearance: none;
-    width: 16px;
-    height: 16px;
-    background: white;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  &::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    background: white;
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-  }
 `
 
 const SliderValue = styled.div`
@@ -137,11 +120,11 @@ export const ModelSelector = () => {
     setSelectedModel,
     setTemperature,
   } = useModelStore()
-  const dropdownRef = useRef(null)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false)
       }
     }
@@ -156,7 +139,7 @@ export const ModelSelector = () => {
     <Container ref={dropdownRef}>
       <DropdownButton onClick={() => setIsOpen(!isOpen)}>
         <span>{selectedModel.name}</span>
-        <ChevronIcon $isOpen={isOpen} />
+        <ChevronIcon isOpen={isOpen} />
       </DropdownButton>
 
       {isOpen && (

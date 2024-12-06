@@ -1,21 +1,24 @@
 'use client'
 import { CircleX, OctagonX, Paperclip, SendHorizontal } from 'lucide-react'
-import React, { useRef, InputHTMLAttributes, useState } from 'react'
-import { useChat } from 'ai/react'
+import React, { useRef, useState } from 'react'
+import { Message, useChat } from 'ai/react'
 import styled from 'styled-components'
 import { useRouter } from 'next/navigation'
+
 import { useModelStore } from '@/hooks/useModelStore'
 
 import { Messages } from './Messages'
-import { Button } from './Button'
-import { Header } from './Header'
+import { Button } from './ui/Button'
+import { Header } from './ui/Header'
 
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  conversation?: unknown
+export interface PromptProps {
+  placeholder?: string
+  conversation: unknown
 }
 
-interface StyledInputProps {
-  error?: string
+interface FileListProps {
+  files?: FileList
+  setFiles: React.Dispatch<React.SetStateAction<FileList>>
 }
 
 const FormWrapper = styled.form`
@@ -30,7 +33,7 @@ const FormWrapper = styled.form`
   margin-bottom: 1rem;
 `
 
-const StyledInput = styled.textarea<StyledInputProps>`
+const StyledInput = styled.textarea`
   width: 100%;
   padding: 0.5rem 1rem;
   font-size: 1rem;
@@ -60,58 +63,57 @@ const StyledInput = styled.textarea<StyledInputProps>`
   }
 `
 
-// TODO: put this elsewhere
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  gap: 0.5rem; /* gap-2 equivalent */
+  gap: 0.5rem;
   align-items: flex-end;
   margin-bottom: 0.75rem;
 `
 
 const AttachmentWrapper = styled.div`
   position: relative;
-  width: 6rem; /* w-24 equivalent */
+  width: 6rem;
   text-align: center;
 `
 
 const Image = styled.img`
-  width: 6rem; /* w-24 equivalent */
-  border-radius: 0.375rem; /* rounded-md equivalent */
+  width: 6rem;
+  border-radius: 0.375rem;
 `
 
 const Text = styled.span`
-  font-size: 0.875rem; /* text-sm equivalent */
-  color: #4b5563; /* text-zinc-500 equivalent */
+  font-size: 0.875rem;
+  color: #4b5563;
 `
 
 const TextAttachmentWrapper = styled.div`
-  width: 6rem; /* w-24 equivalent */
-  color: #4b5563; /* text-zinc-500 equivalent */
+  width: 6rem;
+  color: #4b5563;
   display: flex;
   flex-direction: column;
-  gap: 0.25rem; /* gap-1 equivalent */
+  gap: 0.25rem;
   flex-shrink: 0;
-  font-size: 0.875rem; /* text-sm equivalent */
+  font-size: 0.875rem;
 `
 
 const PreviewBox = styled.div`
-  width: 4rem; /* w-16 equivalent */
-  height: 5rem; /* h-20 equivalent */
-  background-color: #f3f4f6; /* bg-zinc-100 equivalent */
-  border-radius: 0.375rem; /* rounded-md equivalent */
+  width: 4rem;
+  height: 5rem;
+  background-color: #f3f4f6;
+  border-radius: 0.375rem;
 `
 
 const CancelButton = styled(Button)`
   background: none;
   border: none;
   position: absolute;
-  top: 0.15rem; /* Adjust to move the button away from the edges */
+  top: 0.15rem;
   left: 0.15rem;
-  z-index: 10; /* Ensure the icon is on top of the content */
+  z-index: 10;
 `
 
-const FilesDisplay = ({ files, setFiles }) => (
+const FilesDisplay = ({ files, setFiles }: FileListProps) => (
   <Container>
     {files
       ? Array.from(files).map((attachment) => {
@@ -124,6 +126,7 @@ const FilesDisplay = ({ files, setFiles }) => (
                   onClick={() => {
                     setFiles((prevFiles) => {
                       const newFiles = { ...prevFiles }
+                      //@ts-expect-error
                       delete newFiles[attachment?.name]
                       return newFiles
                     })
@@ -149,6 +152,7 @@ const FilesDisplay = ({ files, setFiles }) => (
                   onClick={() => {
                     setFiles((prevFiles) => {
                       const newFiles = { ...prevFiles }
+                      //@ts-expect-error
                       delete newFiles[attachment?.name]
                       return newFiles
                     })
@@ -170,8 +174,7 @@ export const Prompt = ({
   placeholder = 'Send a message...',
   conversation,
   ...props
-}: InputProps) => {
-  const initialMessages = conversation?.messages || []
+}: PromptProps) => {
   const newConversationIdRef = useRef('')
   const { selectedModel, temperature } = useModelStore()
   const router = useRouter()
@@ -184,7 +187,7 @@ export const Prompt = ({
     handleInputChange,
     isLoading,
   } = useChat({
-    initialMessages,
+    initialMessages: conversation?.messages as Message[],
     body: {
       conversationId: conversation?.id,
       modelSelection: { name: selectedModel.name, temperature },
@@ -203,6 +206,7 @@ export const Prompt = ({
   })
 
   const [files, setFiles] = useState<FileList | undefined>(undefined)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter') {
@@ -210,11 +214,9 @@ export const Prompt = ({
         return
       }
       event.preventDefault()
-      handleFormSubmit(event)
+      handleFormSubmit()
     }
   }
-
-  const fileInputRef = useRef(null)
 
   const handleUpload = (e) => {
     e.preventDefault()
@@ -224,10 +226,10 @@ export const Prompt = ({
     }
   }
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault()
+  const handleFormSubmit = (event?: React.FormEvent<HTMLFormElement>) => {
+    event?.preventDefault()
 
-    if (files?.length) {
+    if (files) {
       append(
         { role: 'user', content: input },
         {
@@ -252,7 +254,10 @@ export const Prompt = ({
       ) : null}
       <Messages data={messages} />
       <div style={{ display: 'flex', flexDirection: 'column' }}>
-        <FilesDisplay files={files} setFiles={setFiles} />
+        <FilesDisplay
+          files={files}
+          setFiles={setFiles as FileListProps['setFiles']}
+        />
         <FormWrapper onSubmit={handleFormSubmit}>
           <Button
             disabled={isLoading}
@@ -267,7 +272,11 @@ export const Prompt = ({
             placeholder={placeholder}
             {...props}
           />
-          <Button disabled={isLoading || !input.length} onClick={handleFormSubmit}>
+          <Button
+            disabled={isLoading || !input.length}
+            //@ts-expect-error
+            onClick={handleFormSubmit}
+          >
             {isLoading ? (
               <OctagonX
                 size={20}

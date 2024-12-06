@@ -1,10 +1,10 @@
-import { Sidebar } from '@/components/ui/Sidebar'
-import { Header } from '../components/ui/Header'
-import { Prompt } from '../components/ui/Prompt'
-import { Nav } from '../components/Nav'
-import { Login } from '../components/Login'
-import { getSidebarConversations } from './chat/actions'
+import { Sidebar } from '@/components/Sidebar'
+import { Prompt } from '@/components/Prompt'
+import { Nav } from '@/components/Nav'
+import { Login } from '@/components/Login'
 import { auth } from '@/lib/auth'
+
+import { getSidebarConversations } from './chat/actions'
 
 export default async function Home() {
   const conversations = await getSidebarConversations()

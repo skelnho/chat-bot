@@ -1,24 +1,18 @@
 'use client'
-import styled from 'styled-components'
+import React from 'react'
 
-import { ModelSelector } from './ui/ModelSelector'
+import { StickyHeader } from './ui/StickyHeader'
+import { ModelSelector } from './ModelSelector'
 
-const HeaderContainer = styled.header`
-  position: sticky;
-  top: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem 4rem;
-  z-index: 50;
-`
+export interface NavProps {
+  children: React.ReactNode
+}
 
-
-export const Nav = ({ children }: { children }) => {
+export const Nav = ({ children }: NavProps) => {
   return (
-    <HeaderContainer>
+    <StickyHeader>
       <ModelSelector />
       {children}
-    </HeaderContainer>
+    </StickyHeader>
   )
 }

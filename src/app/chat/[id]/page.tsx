@@ -1,8 +1,8 @@
-import { Sidebar } from '@/components/ui/Sidebar'
-import { Prompt } from '@/components/ui/Prompt'
+import { redirect } from 'next/navigation'
+import { Sidebar } from '@/components/Sidebar'
+import { Prompt } from '@/components/Prompt'
 import { Nav } from '@/components/Nav'
 import { Login } from '@/components/Login'
-import { redirect } from 'next/navigation'
 import { auth } from '@/lib/auth'
 
 import { getConversation, getSidebarConversations } from '../actions'

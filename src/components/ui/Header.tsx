@@ -1,19 +1,16 @@
 'use client'
 import styled, { css } from 'styled-components'
 
-type HeaderLevel = 'h1' | 'h2' | 'h3' | 'h4'
+type HeaderType = 'h1' | 'h2' | 'h3' | 'h4'
 
 interface HeaderProps {
-  level?: HeaderLevel
+  type?: HeaderType
   color?: string
   align?: 'left' | 'center' | 'right'
   marginBottom?: string
 }
 
-// Shared styles for all headers
 const baseHeaderStyles = css<HeaderProps>`
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, sans-serif;
   color: var(--foreground);
   text-align: ${({ align }) => align || 'left'};
   margin-bottom: ${({ marginBottom }) => marginBottom || '0.5em'};
@@ -21,7 +18,6 @@ const baseHeaderStyles = css<HeaderProps>`
   font-weight: bold;
 `
 
-// Individual header styles
 const H1 = styled.h1<HeaderProps>`
   ${baseHeaderStyles}
   font-size: 2.5rem;
@@ -62,8 +58,11 @@ interface StyledHeaderProps extends HeaderProps {
   className?: string
 }
 
-export const Header = ({ level = 'h2', children, ...props }: StyledHeaderProps) => {
-  const HeaderComponent = headerComponents[level]
+export const Header = ({
+  type = 'h2',
+  children,
+  ...props
+}: StyledHeaderProps) => {
+  const HeaderComponent = headerComponents[type]
   return <HeaderComponent {...props}>{children}</HeaderComponent>
 }
-
