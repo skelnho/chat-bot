@@ -53,7 +53,7 @@ const LoginButton = styled.button`
   }
 `
 
-export const Login = async ({ session }: LoginProps) => {
+export const Login = ({ session }: LoginProps) => {
   if (session?.user) {
     const { name, image } = session.user
 

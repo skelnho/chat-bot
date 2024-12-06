@@ -19,9 +19,9 @@ interface SidebarProps {
   session: Session | null
 }
 
-const SidebarContainer = styled.div<{ isOpen: boolean }>`
+const SidebarContainer = styled.div<{ $isOpen: boolean }>`
   height: 100vh;
-  width: ${({ isOpen }) => (isOpen ? '240px' : '0')};
+  width: ${({ $isOpen }) => ($isOpen ? '240px' : '0')};
   background: #1a1a1a;
   color: #ffffff;
   transition: all 0.3s ease;
@@ -36,14 +36,14 @@ const ToggleButton = styled(Button)`
   z-index: 1001;
 `
 
-const Content = styled.div<{ isOpen: boolean }>`
+const Content = styled.div<{ $isOpen: boolean }>`
   display: flex;
   flex-direction: column;
   gap: .25rem;
   padding: 20px;
-  opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
+  opacity: ${({ $isOpen }) => ($isOpen ? 1 : 0)};
   transition: opacity 0.3s ease;
-  visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
+  visibility: ${({ $isOpen }) => ($isOpen ? 'visible' : 'hidden')};
   color: #fff;
 `
 
@@ -72,8 +72,8 @@ export const Sidebar = ({
         <PanelLeftDashed size={20} />
       </ToggleButton>
 
-      <SidebarContainer isOpen={isOpen}>
-        <Content isOpen={isOpen}>
+      <SidebarContainer $isOpen={isOpen}>
+        <Content $isOpen={isOpen}>
           <Link href="/" style={{ marginLeft: '90%' }}>
             <SquarePen size={20} />
           </Link>

@@ -28,11 +28,11 @@ const DropdownButton = styled.button`
   }
 `
 
-const ChevronIcon = styled(ChevronDown)<{ isOpen: boolean }>`
+const ChevronIcon = styled(ChevronDown)<{ $isOpen: boolean }>`
   width: 1rem;
   height: 1rem;
   transition: transform 0.2s;
-  transform: ${(props) => (props.isOpen ? 'rotate(180deg)' : 'rotate(0)')};
+  transform: ${(props) => (props.$isOpen ? 'rotate(180deg)' : 'rotate(0)')};
 `
 
 const DropdownContent = styled.div`
@@ -139,7 +139,7 @@ export const ModelSelector = () => {
     <Container ref={dropdownRef}>
       <DropdownButton onClick={() => setIsOpen(!isOpen)}>
         <span>{selectedModel.name}</span>
-        <ChevronIcon isOpen={isOpen} />
+        <ChevronIcon $isOpen={isOpen} />
       </DropdownButton>
 
       {isOpen && (
