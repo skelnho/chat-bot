@@ -25,13 +25,7 @@ export default async function Chat({
   return (
     <div className="container">
       <Sidebar conversations={conversations} session={session} />
-      <div
-        style={{
-          display: 'flex',
-          height: '100%',
-          width: '100%',
-          flexDirection: 'column',
-        }}
+      <div className='main-container'
       >
         <Nav>
           <Login session={session} />

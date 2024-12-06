@@ -13,13 +13,7 @@ export default async function Home() {
   return (
     <div className="container">
       <Sidebar session={session} conversations={conversations} />
-      <div
-        style={{
-          display: 'flex',
-          height: '100%',
-          width: '100%',
-          flexDirection: 'column',
-        }}
+      <div className='main-container'
       >
         <Nav>
           <Login session={session} />

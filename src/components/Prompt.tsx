@@ -13,7 +13,7 @@ import { Header } from './ui/Header'
 
 export interface PromptProps {
   placeholder?: string
-  conversation: unknown
+  conversation?: unknown
 }
 
 interface FileListProps {

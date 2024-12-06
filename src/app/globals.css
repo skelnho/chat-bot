@@ -9,25 +9,28 @@
 }
 
 @font-face {
-  font-family: "geist";
+  font-family: 'geist';
   font-style: normal;
   font-weight: 100 900;
-  src: url(/fonts/geist.woff2) format("woff2");
+  src: url(/fonts/geist.woff2) format('woff2');
 }
 
 @font-face {
-  font-family: "geist-mono";
+  font-family: 'geist-mono';
   font-style: normal;
   font-weight: 100 900;
-  src: url(/fonts/geist-mono.woff2) format("woff2");
+  src: url(/fonts/geist-mono.woff2) format('woff2');
 }
 
 body {
-  font-family: "geist", sans-serif;
+  font-family: 'geist', sans-serif;
 }
 
-input, textarea, pre, code {
-  font-family: "geist-mono", monospace;
+input,
+textarea,
+pre,
+code {
+  font-family: 'geist-mono', monospace;
 }
 
 body,
@@ -43,11 +46,6 @@ p {
 a {
   color: inherit;
   text-decoration: none;
-}
-
-ul, li {
-  all: unset;
-  padding: 0;
 }
 
 .container {
@@ -68,6 +66,8 @@ ul, li {
   width: 100%;
   flex-direction: column;
   font-size: 1rem;
+  flex: 1;
+  transition: margin-left 0.3s ease;
 
   @media (min-width: 1024px) {
     justify-content: center;
@@ -84,23 +84,11 @@ ul, li {
   @media (min-width: 1280px) {
     max-width: 48rem;
   }
-  flex: 1;
-  transition: margin-left 0.3s ease;
 }
 
-.bottom {
-  justify-content: flex-end;
-  align-items: flex-end;
-}
-
-h1 {
-  font-size: 1.875rem;
-  font-weight: 600;
-  line-height: 2.25rem;
-}
-
-.click {
-  &:hover {
-    cursor: pointer;
-  }
+.main-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
 }

@@ -11,7 +11,11 @@ import { Button } from './ui/Button'
 
 interface SidebarProps {
   isOpen?: boolean
-  conversations?: Prisma.ConversationGetPayload<{ select: { name: true, id: true, updatedAt: true } }>[] | null
+  conversations?:
+    | Prisma.ConversationGetPayload<{
+        select: { name: true; id: true; updatedAt: true }
+      }>[]
+    | null
   session: Session | null
 }
 
@@ -35,12 +39,24 @@ const ToggleButton = styled(Button)`
 const Content = styled.div<{ isOpen: boolean }>`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: .25rem;
   padding: 20px;
   opacity: ${({ isOpen }) => (isOpen ? 1 : 0)};
   transition: opacity 0.3s ease;
   visibility: ${({ isOpen }) => (isOpen ? 'visible' : 'hidden')};
   color: #fff;
+`
+
+const LinkText = styled.p`
+  padding: 8px 12px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  background: transparent;
+
+  &:hover {
+    background: #262626;
+  }
 `
 
 export const Sidebar = ({
@@ -67,7 +83,7 @@ export const Sidebar = ({
             ) : (
               conversations?.map((conversation) => (
                 <Link key={conversation.id} href={`/chat/${conversation.id}`}>
-                  <p id={conversation.id}>{conversation.name}</p>
+                  <LinkText id={conversation.id}>{conversation.name}</LinkText>
                 </Link>
               ))
             )}
