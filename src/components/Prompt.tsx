@@ -123,6 +123,7 @@ const FilesDisplay = ({ files, setFiles }: FileListProps) => (
             return (
               <AttachmentWrapper key={attachment.name}>
                 <CancelButton
+                  data-testid="remove-file-button"
                   onClick={() => {
                     setFiles((prevFiles) => {
                       const newFiles = { ...prevFiles }
@@ -149,6 +150,7 @@ const FilesDisplay = ({ files, setFiles }: FileListProps) => (
             return (
               <TextAttachmentWrapper key={attachment.name}>
                 <CancelButton
+                  data-testid="remove-file-button"
                   onClick={() => {
                     setFiles((prevFiles) => {
                       const newFiles = { ...prevFiles }
@@ -258,7 +260,7 @@ export const Prompt = ({
           files={files}
           setFiles={setFiles as FileListProps['setFiles']}
         />
-        <FormWrapper onSubmit={handleFormSubmit}>
+        <FormWrapper onSubmit={handleFormSubmit} role='form'>
           <Button
             disabled={isLoading}
             onClick={() => fileInputRef.current?.click()}
@@ -273,6 +275,7 @@ export const Prompt = ({
             {...props}
           />
           <Button
+            data-testid="submit-button"
             disabled={isLoading || !input.length}
             //@ts-expect-error
             onClick={handleFormSubmit}
@@ -294,6 +297,7 @@ export const Prompt = ({
             )}
           </Button>
           <input
+            data-testid="file-input"
             type="file"
             multiple
             ref={fileInputRef}
